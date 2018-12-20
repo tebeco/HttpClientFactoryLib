@@ -30,9 +30,9 @@ namespace RegisterMultipleGenericType.NugetLibs.Monitoring
 
             //Temporary fix until i find out why the IOptions<TMyHttpClientOptions> httpClientOptions IS NOT RESOLVED, all field are defaulted
             httpClient.BaseAddress = httpClientOptions.BaseAddress;
-            var healthUri = httpClientOptions.HealthCheckConfiguration?.HealtcheckUri ?? new Uri("health", UriKind.Relative);
             //Temporary fix until i find out why the IOptions<TMyHttpClientOptions> httpClientOptions IS NOT RESOLVED, all field are defaulted
             
+            var healthUri = httpClientOptions.HealthCheckConfiguration.HealthCheckUri;
             var data = new Dictionary<string, object> { { nameof(IMyHttpClientOptions), httpClientOptions } };
             
             try

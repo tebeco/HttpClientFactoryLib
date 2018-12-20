@@ -22,7 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             services.AddHealthChecks()
-                    .AddMyHttpHealtCheck<O>();
+                    .AddMyHttpHealthCheck<O>();
 
             return httpClientBuilder;
         }
