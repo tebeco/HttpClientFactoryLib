@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RegisterMultipleGenericType.FakeBackends;
+using RegisterMultipleGenericType.HttpClients.Anonymous;
+using RegisterMultipleGenericType.HttpClients.BasicAuth;
 
 namespace RegisterMultipleGenericType
 {
@@ -27,12 +29,16 @@ namespace RegisterMultipleGenericType
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddMyHttpClient<IAnonymousHttpClient, AnonymousHttpClient, AnonymousHttpClientOptions>();
+            services.AddMyBasicAuthHttpClient<IBasicAuthHttpClient,BasicAuthHttpClient, BasicAuthHttpClientOptions>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.Map("/Anonymous", applicationBuilder => applicationBuilder.UseMiddleware<AnoymousMiddleware>());
+            app.Map("/Basic", applicationBuilder => applicationBuilder.UseMiddleware<BasicAuthMiddleware>());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

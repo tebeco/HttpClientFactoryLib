@@ -4,7 +4,12 @@ using System.Threading.Tasks;
 
 namespace RegisterMultipleGenericType.HttpClients.Anonymous
 {
-    public class AnonymousHttpClient
+    public interface IAnonymousHttpClient
+    {
+        Task<string> GetDataAsync();
+    }
+
+    public class AnonymousHttpClient : IAnonymousHttpClient
     {
         private readonly HttpClient httpClient;
 
@@ -13,10 +18,16 @@ namespace RegisterMultipleGenericType.HttpClients.Anonymous
             this.httpClient = httpClient;
         }
 
-        public async Task<string> GetData()
+        public async Task<string> GetDataAsync()
         {
-            return await httpClient.GetStringAsync($"/data_{Guid.NewGuid().ToString()}").ConfigureAwait(false);
+            try
+            {
+                return await httpClient.GetStringAsync($"data_{Guid.NewGuid().ToString()}").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
-
     }
 }

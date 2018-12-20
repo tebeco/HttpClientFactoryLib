@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using NugetLibs.Configuration;
 using RegisterMultipleGenericType.NugetLibs.Handlers;
 
-namespace NugetLibs
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class HttpClientFactoryExtensions
     {
@@ -14,9 +14,14 @@ namespace NugetLibs
         where O : class, IMyHttpClientOptions, new()
         {
             var httpClientBuilder = services.AddHttpClient<I, T>();
+            httpClientBuilder.ConfigureHttpClient((serviceProvider, httpClient) =>
+            {
+                var httpClientOptions = serviceProvider.GetService<IOptions<O>>().Value;
+                httpClient.BaseAddress = httpClientOptions.BaseAddress;
+                httpClient.Timeout = httpClientOptions.Timeout;
+            });
             return httpClientBuilder;
         }
-
 
         public static IHttpClientBuilder AddMyBasicAuthHttpClient<I, T, O>(this IServiceCollection services)
         where I : class
@@ -26,9 +31,8 @@ namespace NugetLibs
             var httpClientBuilder = services.AddMyHttpClient<I, T, O>();
             httpClientBuilder.AddHttpMessageHandler(serviceProvider =>
             {
-                // var basicAuthClientOptions = serviceProvider.GetService<IOptions<O>>
-                // return new BasicAuthHandler(basicAuthClientOptions.basicAuthConfiguration);
-                return null;
+                var httpClientOptions = serviceProvider.GetService<IOptions<O>>().Value;
+                return new BasicAuthHandler(httpClientOptions.BasicAuthConfiguration);
             });
             return httpClientBuilder;
         }

@@ -4,8 +4,12 @@ using System.Threading.Tasks;
 
 namespace RegisterMultipleGenericType.HttpClients.BasicAuth
 {
+    public interface IBasicAuthHttpClient
+    {
+        Task<string> GetDataAsync();
+    }
 
-    public class BasicAuthHttpClient
+    public class BasicAuthHttpClient : IBasicAuthHttpClient
     {
         private readonly HttpClient httpClient;
 
@@ -14,9 +18,16 @@ namespace RegisterMultipleGenericType.HttpClients.BasicAuth
             this.httpClient = httpClient;
         }
 
-        public async Task<string> GetData()
+        public async Task<string> GetDataAsync()
         {
-            return await httpClient.GetStringAsync($"/data_{Guid.NewGuid().ToString()}").ConfigureAwait(false);
+            try
+            {
+                return await httpClient.GetStringAsync($"data_{Guid.NewGuid().ToString()}").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
     }
 }

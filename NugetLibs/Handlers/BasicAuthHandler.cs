@@ -16,7 +16,7 @@ namespace RegisterMultipleGenericType.NugetLibs.Handlers
             authorizationHeaderValue = $"Basic {EncodeBasicAuth(basicAuthConfiguration.UserName, basicAuthConfiguration.Password)}";
         }
 
-        public string EncodeBasicAuth(string userName, string password)
+        public static string EncodeBasicAuth(string userName, string password)
         {
             return Convert.ToBase64String(Encoding.UTF8.GetBytes($"{userName}:{password}"));
         }
