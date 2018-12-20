@@ -24,12 +24,20 @@ namespace RegisterMultipleGenericType.NugetLibs.Monitoring
 
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var httpClient = httpClientFactory.CreateClient(httpClientOptions.GetType().FullName);
+            var fullName = httpClientOptions.GetType().FullName;
+            var httpClientName = fullName.Substring(0, fullName.Length - 7);
+            var httpClient = httpClientFactory.CreateClient(httpClientName);
+
+            //Temporary fix until i find out why the IOptions<TMyHttpClientOptions> httpClientOptions IS NOT RESOLVED, all field are defaulted
+            httpClient.BaseAddress = httpClientOptions.BaseAddress;
+            var healthUri = httpClientOptions.HealthCheckConfiguration?.HealtcheckUri ?? new Uri("health", UriKind.Relative);
+            //Temporary fix until i find out why the IOptions<TMyHttpClientOptions> httpClientOptions IS NOT RESOLVED, all field are defaulted
+            
             var data = new Dictionary<string, object> { { nameof(IMyHttpClientOptions), httpClientOptions } };
             
             try
             {
-                var result = await httpClient.GetAsync(httpClientOptions.HealthCheckConfiguration.HealtcheckUri).ConfigureAwait(false);
+                var result = await httpClient.GetAsync(healthUri).ConfigureAwait(false);
                 if (result.StatusCode == HttpStatusCode.OK)
                 {
                     return new HealthCheckResult(HealthStatus.Healthy, "Some desc", null, data);
