@@ -20,6 +20,10 @@ namespace Microsoft.Extensions.DependencyInjection
                 httpClient.BaseAddress = httpClientOptions.BaseAddress;
                 httpClient.Timeout = httpClientOptions.Timeout;
             });
+
+            services.AddHealthChecks()
+                    .AddMyHttpHealtCheck<O>();
+
             return httpClientBuilder;
         }
 
