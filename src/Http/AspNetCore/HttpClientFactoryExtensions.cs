@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
         where T : class, I
         where O : class, IMyHttpClientOptions, new()
         {
-            var httpClientBuilder = services.AddHttpClient<I, T>();
+            var httpClientBuilder = services.AddHttpClient<I, T>(typeof(O).FullName);
             httpClientBuilder.ConfigureHttpClient((serviceProvider, httpClient) =>
             {
                 var httpClientOptions = serviceProvider.GetService<IOptions<O>>().Value;

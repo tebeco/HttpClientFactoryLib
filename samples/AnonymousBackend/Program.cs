@@ -19,6 +19,7 @@ namespace AnonymousBackend
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseUrls(new[] { "http://localhost:5002", "https://localhost:5003" })
                 .UseStartup<Startup>();
     }
 }

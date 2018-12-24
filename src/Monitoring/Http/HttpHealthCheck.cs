@@ -24,9 +24,7 @@ namespace HttpClientFactoryLib.Monitoring.Http
 
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var fullName = httpClientOptions.GetType().FullName;
-            var httpClientName = fullName.Substring(0, fullName.Length - 7);
-            var httpClient = httpClientFactory.CreateClient(httpClientName);
+            var httpClient = httpClientFactory.CreateClient(typeof(TMyHttpClientOptions).FullName);
 
             //Temporary fix until i find out why the IOptions<TMyHttpClientOptions> httpClientOptions IS NOT RESOLVED, all field are defaulted
             httpClient.BaseAddress = httpClientOptions.BaseAddress;

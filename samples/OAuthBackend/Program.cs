@@ -19,6 +19,7 @@ namespace OAuthBackend
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseUrls(new[] { "http://localhost:5006", "https://localhost:5007" })
                 .UseStartup<Startup>();
     }
 }

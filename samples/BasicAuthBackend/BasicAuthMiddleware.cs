@@ -26,7 +26,7 @@ namespace BasicAuthBackend
             }
 
             var (user, password) = DecodeBasicAuth(authorizationHeader.First());
-            if (user == "abc" && password == "def")
+            if (!user.Equals("abc", StringComparison.InvariantCulture) || !password.Equals("def", StringComparison.InvariantCulture))
             {
                 httpContext.Response.StatusCode = 403;
                 await httpContext.Response.WriteAsync($"Unauthorized").ConfigureAwait(false);
@@ -34,20 +34,18 @@ namespace BasicAuthBackend
                 return;
             }
 
-            if (httpContext.Request.Path.StartsWithSegments("/health"))
-            {
-                httpContext.Response.StatusCode = 200;
-                await httpContext.Response.WriteAsync($"healthy").ConfigureAwait(false);
-
-                return;
-            }
-
-            await httpContext.Response.WriteAsync($"Some protected data {httpContext.Request.Path.ToUriComponent()}").ConfigureAwait(false);
+            await next.Invoke(httpContext).ConfigureAwait(false);
         }
 
         private (string, string) DecodeBasicAuth(string basicAuthAuthorizationHeader)
         {
-            var decodedHeader = Encoding.UTF8.GetString(Convert.FromBase64String(basicAuthAuthorizationHeader));
+            if (!basicAuthAuthorizationHeader.StartsWith("BASIC ", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return (null, null);
+            }
+
+            var authPair = basicAuthAuthorizationHeader.Substring("BASIC ".Length);
+            var decodedHeader = Encoding.UTF8.GetString(Convert.FromBase64String(authPair));
             var splittedAuthHeader = decodedHeader.Split(':');
 
             var userName = splittedAuthHeader.Length > 0 ? splittedAuthHeader[0] : null;

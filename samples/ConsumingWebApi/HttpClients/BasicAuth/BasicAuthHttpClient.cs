@@ -18,7 +18,7 @@ namespace ConsumingWebApi.HttpClients.BasicAuth
         {
             try
             {
-                return await httpClient.GetStringAsync($"data_{Guid.NewGuid().ToString()}").ConfigureAwait(false);
+                return await httpClient.GetStringAsync($"api/data/{Guid.NewGuid().ToString()}").ConfigureAwait(false);
             }
             catch (Exception ex)
             {

@@ -3,25 +3,17 @@ using Microsoft.AspNetCore.Http;
 
 namespace AnonymousBackend
 {
-    public class AnoymousMiddleware
+    public class DataMiddleware
     {
         private readonly RequestDelegate next;
 
-        public AnoymousMiddleware(RequestDelegate next)
+        public DataMiddleware(RequestDelegate next)
         {
             this.next = next;
         }
 
         public async Task Invoke(HttpContext httpContext)
         {
-            if(httpContext.Request.Path.StartsWithSegments("/health"))
-            {
-                httpContext.Response.StatusCode = 200;
-                await httpContext.Response.WriteAsync($"healthy").ConfigureAwait(false);
-
-                return;
-            }
-
             await httpContext.Response.WriteAsync($"Some data {httpContext.Request.Path.ToUriComponent()}").ConfigureAwait(false);
         }
     }

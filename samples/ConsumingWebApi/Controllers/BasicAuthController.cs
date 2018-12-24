@@ -9,11 +9,11 @@ namespace ConsumingWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BasicHttpController : ControllerBase
+    public class BasicAuthController : ControllerBase
     {
         private readonly IBasicAuthHttpClient basicAuthHttpClient;
 
-        public BasicHttpController(IBasicAuthHttpClient basicAuthHttpClient)
+        public BasicAuthController(IBasicAuthHttpClient basicAuthHttpClient)
         {
             this.basicAuthHttpClient = basicAuthHttpClient;
         }

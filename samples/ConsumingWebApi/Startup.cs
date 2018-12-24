@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using ConsumingWebApi.HttpClients.Anonymous;
+using ConsumingWebApi.HttpClients.BasicAuth;
 using HttpClientFactoryLib.Http.Configuration;
+using HttpClientFactoryLib.Monitoring.Flacky;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace ConsumingWebApi
@@ -29,7 +26,14 @@ namespace ConsumingWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHealthChecks();
+            services.AddOptions<FlackyHealthCheckOptions>();
+
+            services.AddHealthChecks()
+                    .AddFlackyHealthCheck();
+
+            services.AddMyHttpClient<IAnonymousHttpClient, AnonymousHttpClient, AnonymousHttpClientOptions>();
+            services.AddMyBasicAuthHttpClient<IBasicAuthHttpClient, BasicAuthHttpClient, BasicAuthHttpClientOptions>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

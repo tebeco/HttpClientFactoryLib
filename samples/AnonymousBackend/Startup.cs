@@ -25,6 +25,7 @@ namespace AnonymousBackend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,7 +43,9 @@ namespace AnonymousBackend
 
             app.UseHttpsRedirection();
 
-            app.UseMiddleware<AnoymousMiddleware>();
+            app.UseHealthChecks("/health");
+
+            app.Map("/api/data", applicationBuilder => applicationBuilder.UseMiddleware<DataMiddleware>());
         }
     }
 }
