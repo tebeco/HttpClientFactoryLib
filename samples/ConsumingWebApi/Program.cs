@@ -14,6 +14,10 @@ namespace ConsumingWebApi
     {
         public static void Main(string[] args)
         {
+            Task.Run(() => AnonymousBackend.Program.Main(args));
+            Task.Run(() => BasicAuthBackend.Program.Main(args));
+            Task.Run(() => OAuthBackend.Program.Main(args));
+
             CreateWebHostBuilder(args).Build().Run();
         }
 

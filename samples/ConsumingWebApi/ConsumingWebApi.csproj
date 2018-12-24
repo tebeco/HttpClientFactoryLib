@@ -12,6 +12,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\HttpClientFactoryLib.csproj" />
+    <ProjectReference Include="..\AnonymousBackend\AnonymousBackend.csproj" />
+    <ProjectReference Include="..\BasicAuthBackend\BasicAuthBackend.csproj" />
+    <ProjectReference Include="..\OAuthBackend\OAuthBackend.csproj" />
   </ItemGroup>
 
 </Project>
