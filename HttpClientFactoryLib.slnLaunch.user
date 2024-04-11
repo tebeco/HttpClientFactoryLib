@@ -1,0 +1,23 @@
+[
+  {
+    "Name": "All",
+    "Projects": [
+      {
+        "Path": "samples\\ConsumingWebApi\\ConsumingWebApi.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "samples\\OAuthBackend\\OAuthBackend.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "samples\\BasicAuthenticationBackend\\BasicAuthenticationBackend.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "samples\\AnonymousBackend\\AnonymousBackend.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

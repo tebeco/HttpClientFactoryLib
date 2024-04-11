@@ -1,7 +1,6 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28407.52
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34804.81
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpClientFactoryLib", "src\HttpClientFactoryLib.csproj", "{4AE38388-5570-4836-9CC1-4DC9717C39C3}"
 EndProject
@@ -15,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumingWebApi", "samples\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuthBackend", "samples\OAuthBackend\OAuthBackend.csproj", "{CFE7E4D4-B02A-4104-A955-AB95DB85B2BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicAuthBackend", "samples\BasicAuthBackend\BasicAuthBackend.csproj", "{F3EF07B6-5F3F-4BCA-8C0A-6EEC6CD7AE9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicAuthenticationBackend", "samples\BasicAuthenticationBackend\BasicAuthenticationBackend.csproj", "{F3EF07B6-5F3F-4BCA-8C0A-6EEC6CD7AE9D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnonymousBackend", "samples\AnonymousBackend\AnonymousBackend.csproj", "{7AECDF80-D5B5-483C-B25B-C02BF4DE377C}"
 EndProject
@@ -109,6 +108,26 @@ Global
 		{7AECDF80-D5B5-483C-B25B-C02BF4DE377C}.Release|x64.Build.0 = Release|Any CPU
 		{7AECDF80-D5B5-483C-B25B-C02BF4DE377C}.Release|x86.ActiveCfg = Release|Any CPU
 		{7AECDF80-D5B5-483C-B25B-C02BF4DE377C}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{22EB4DE0-A970-49A9-B01E-0EE825F427EB} = {FFA0FAE8-4A83-47DA-B6AE-E0557CE1BEDC}
+		{783DC1D9-D7E0-4F41-8125-0E15402EF94C} = {9F497A65-61A4-4250-ACAF-80EF116BC52D}
+		{CFE7E4D4-B02A-4104-A955-AB95DB85B2BB} = {60D470DE-FB63-42EC-AB88-DB26E7574BD2}
+		{F3EF07B6-5F3F-4BCA-8C0A-6EEC6CD7AE9D} = {60D470DE-FB63-42EC-AB88-DB26E7574BD2}
+		{7AECDF80-D5B5-483C-B25B-C02BF4DE377C} = {60D470DE-FB63-42EC-AB88-DB26E7574BD2}
+		{60D470DE-FB63-42EC-AB88-DB26E7574BD2} = {9F497A65-61A4-4250-ACAF-80EF116BC52D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {508569F4-7805-4A8F-93A6-A51AB891911B}
+	EndGlobalSection
+EndGlobal
+C8A5}.Release|x64.ActiveCfg = Release|Any CPU
+		{AC302F11-BADA-44D6-B430-2558BFDDC8A5}.Release|x64.Build.0 = Release|Any CPU
+		{AC302F11-BADA-44D6-B430-2558BFDDC8A5}.Release|x86.ActiveCfg = Release|Any CPU
+		{AC302F11-BADA-44D6-B430-2558BFDDC8A5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

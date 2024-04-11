@@ -1,9 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿namespace ConsumingWebApi.HttpClients.Anonymous;
 
-namespace ConsumingWebApi.HttpClients.Anonymous
+public interface IAnonymousHttpClient
 {
-    public interface IAnonymousHttpClient
-    {
-        Task<string> GetDataAsync();
-    }
+    Task<string> GetDataAsync();
 }

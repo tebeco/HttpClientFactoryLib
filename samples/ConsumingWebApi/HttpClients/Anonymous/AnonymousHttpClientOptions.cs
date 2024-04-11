@@ -1,13 +1,16 @@
-using System;
-using HttpClientFactoryLib.Http.Configuration;
+using HttpClientFactoryLib.Http;
 
-namespace ConsumingWebApi.HttpClients.Anonymous
+namespace ConsumingWebApi.HttpClients.Anonymous;
+
+public class AnonymousHttpClientOptions : IMyHttpClientOptions
 {
-    public class AnonymousHttpClientOptions : IMyHttpClientOptions
-    {
-        public string Name { get; set; } = "AnonymousHttpClient";
-        public Uri BaseAddress { get; set; } = new Uri("https://localhost:5003/");
-        public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(2);
-        public HealthCheckConfiguration HealthCheckConfiguration { get; set; } = new HealthCheckConfiguration();
-    }
+    public static string SectionName { get; } = "AnonymousHttpClient";
+
+    public Uri BaseAddress { get; set; } = new Uri("https://localhost:5003/");
+
+    public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(2);
+
+    public HealthCheckConfiguration HealthCheckConfiguration { get; set; } = new HealthCheckConfiguration();
+
+    public string HttpClientBuilderName { get; set; } = null!;
 }

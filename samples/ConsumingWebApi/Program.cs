@@ -1,28 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+﻿using ConsumingWebApi.HttpClients.Anonymous;
+using ConsumingWebApi.HttpClients.BasicAuthentication;
+using HttpClientFactoryLib.Http;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using System.Text.Json;
 
-namespace ConsumingWebApi
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services
+        .AddHealthChecks()
+        .AddFlackyHealthCheck();
+
+builder.Services.AddMyHttpClient<IAnonymousHttpClient, AnonymousHttpClient, AnonymousHttpClientOptions>();
+builder.Services.AddMyBasicAuthenticationHttpClient<IBasicAuthenticationHttpClient, BasicAuthenticationHttpClient, BasicAuthenticationHttpClientOptions>();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            Task.Run(() => AnonymousBackend.Program.Main(args));
-            Task.Run(() => BasicAuthBackend.Program.Main(args));
-            Task.Run(() => OAuthBackend.Program.Main(args));
-
-            CreateWebHostBuilder(args).Build().Run();
-        }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+
+var healthCheckJsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+
+app.MapHealthChecks("/health", new HealthCheckOptions()
+{
+    ResponseWriter = async (httpContext, healthReport) =>
+    {
+        httpContext.Request.ContentType = "application/json";
+
+        //var healChecksResult = new
+        //{
+        //    status = healthReport.Status.ToString(),
+        //    results = healthReport.Entries.Select(entry =>
+        //    {
+        //        return new
+        //        {
+        //            name = entry.Key,
+        //            value = entry.Value.Status.ToString(),
+        //            exception = entry.Value.Exception?.Message
+        //        };
+        //    })
+        //};
+
+        await httpContext.Response.WriteAsJsonAsync(healthReport, healthCheckJsonSerializerOptions);
+    }
+});
+
+app.MapControllers();
+
+app.Run();

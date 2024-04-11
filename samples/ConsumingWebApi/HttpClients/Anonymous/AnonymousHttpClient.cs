@@ -1,29 +1,24 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+namespace ConsumingWebApi.HttpClients.Anonymous;
 
-namespace ConsumingWebApi.HttpClients.Anonymous
+
+public class AnonymousHttpClient : IAnonymousHttpClient
 {
+    private readonly HttpClient _httpClient;
 
-    public class AnonymousHttpClient : IAnonymousHttpClient
+    public AnonymousHttpClient(HttpClient httpClient)
     {
-        private readonly HttpClient httpClient;
+        _httpClient = httpClient;
+    }
 
-        public AnonymousHttpClient(HttpClient httpClient)
+    public async Task<string> GetDataAsync()
+    {
+        try
         {
-            this.httpClient = httpClient;
+            return await _httpClient.GetStringAsync($"api/data/{Guid.NewGuid().ToString()}");
         }
-
-        public async Task<string> GetDataAsync()
+        catch (Exception ex)
         {
-            try
-            {
-                return await httpClient.GetStringAsync($"api/data/{Guid.NewGuid().ToString()}").ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
+            return ex.Message;
         }
     }
 }

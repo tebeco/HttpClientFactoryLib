@@ -1,24 +1,22 @@
-﻿using System.Threading.Tasks;
-using ConsumingWebApi.HttpClients.Anonymous;
+﻿using ConsumingWebApi.HttpClients.Anonymous;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ConsumingWebApi.Controllers
+namespace ConsumingWebApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class AnonymousController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AnonymousController : ControllerBase
+    private readonly IAnonymousHttpClient _anonymousClient;
+
+    public AnonymousController(IAnonymousHttpClient anonymousClient)
     {
-        private readonly IAnonymousHttpClient anonymousClient;
+        _anonymousClient = anonymousClient;
+    }
 
-        public AnonymousController(IAnonymousHttpClient anonymousClient)
-        {
-            this.anonymousClient = anonymousClient;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<string>> Get(int id)
-        {
-            return await anonymousClient.GetDataAsync().ConfigureAwait(false);
-        }
+    [HttpGet]
+    public async Task<ActionResult<string>> Get(int id)
+    {
+        return await _anonymousClient.GetDataAsync();
     }
 }
