@@ -21,7 +21,6 @@ builder.Services.AddAuthorization(options =>
         .Build();
 });
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

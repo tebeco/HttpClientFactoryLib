@@ -13,6 +13,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\HttpClientFactoryLib.csproj" />
 		<ProjectReference Include="..\AnonymousBackend\AnonymousBackend.csproj" />
+		<ProjectReference Include="..\AspireSampleServiceDefaults\AspireSampleServiceDefaults.csproj" />
 		<ProjectReference Include="..\BasicAuthenticationBackend\BasicAuthenticationBackend.csproj" />
 		<ProjectReference Include="..\OAuthBackend\OAuthBackend.csproj" />
 	</ItemGroup>
